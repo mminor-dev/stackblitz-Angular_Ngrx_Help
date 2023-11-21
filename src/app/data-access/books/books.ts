@@ -5,3 +5,7 @@ export interface Book {
     authors: string[];
   };
 }
+
+export interface BooksResponse extends Record<string, unknown> {
+  items: Book[];
+}

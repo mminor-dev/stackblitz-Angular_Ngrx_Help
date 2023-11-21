@@ -1,21 +1,6 @@
-import { createSelector } from '@ngrx/store';
-import { AppState } from '../reducers/index.reducer';
-import { Pokemon } from '../../models/pokemon';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-export const selectAppState = (state: AppState) => state;
-export const selectPokemonState = (state: AppState) => state.pokemon;
+import { PokemonState } from './pokemon.reducer';
 
-export const selectPokemon = createSelector(
-  selectPokemonState,
-  (state) => new Pokemon(state.id, state.name, state.url)
-);
-
-export const getPokemonErrorMsg = createSelector(
-  selectPokemonState,
-  (state) => state.errorMsg
-);
-
-export const isPokemonDataLoaded = createSelector(
-  selectPokemonState,
-  (state) => state.dataLoaded
-);
+export const selectPokemonState = createFeatureSelector<PokemonState>('pokemon');
+export const selectPokemon = createSelector(selectPokemonState, ({ pokemon }) => pokemon);

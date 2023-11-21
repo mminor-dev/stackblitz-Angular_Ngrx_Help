@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpResponse } from '../models/httpresponse';
+import { Injectable } from '@angular/core';
+import { map, tap } from 'rxjs/operators';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { PokemonResponse } from './pokemon';
 
 @Injectable({
   providedIn: 'root',
@@ -11,33 +10,13 @@ import { map } from 'rxjs/operators';
 export class PokemonService {
   constructor(private http: HttpClient) {}
 
-  getPokemon(): Observable<HttpResponse> {
+  getPokemon() {
     const url = `https://pokeapi.co/api/v2/pokemon`;
 
-    const response$ = this.http.get(url, { observe: 'response' }).pipe(
-      map((res: any) => {
-        let responseBody = res?.body;
-        let result: HttpResponse;
-        if (res) {
-          result = {
-            status: res.status,
-            data: responseBody.results,
-            success: 'true',
-            message: 'OK',
-          };
-        } else {
-          result = {
-            status: res.status,
-            data: undefined,
-            success: 'false',
-            message: 'Failed',
-          };
-        }
+    const pokemon$ = this.http
+      .get<PokemonResponse>(url)
+      .pipe(tap((rsp_pokemon) => console.log({ rsp_pokemon })));
 
-        return result;
-      })
-    );
-
-    return response$;
+    return pokemon$.pipe(map(({ results }) => results));
   }
 }

@@ -1,0 +1,13 @@
+<h2>Books</h2>
+<ul *ngrxLet="books$ as books">
+  <li *ngFor="let book of books">
+    {{ book.volumeInfo.title }}
+  </li>
+</ul>
+
+<h2>Pokemon</h2>
+<ul *ngrxLet="pokemon$ as pokemon">
+  <li *ngFor="let mon of pokemon">
+    {{ mon.name }}
+  </li>
+</ul>

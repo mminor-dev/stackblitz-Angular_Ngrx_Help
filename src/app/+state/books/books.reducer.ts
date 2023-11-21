@@ -1,5 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 
+import { Book } from '../../data-access';
+import { BooksActions } from './books.actions';
+
 export interface BooksState {
   books: Book[];
   loading: boolean;
@@ -14,17 +17,11 @@ export const booksInitialState: BooksState = {
 export const booksReducer = createReducer(
   booksInitialState,
 
-  on(BooksActions.Actions.loadBooks, (state) => {
+  on(BooksActions.loadBooks, (state) => {
     return { ...state, loading: true, errorMessage: undefined };
   }),
 
-  on(BooksActions.Actions.booksLoaded, (state, action) => {
-    return {
-      ...state,
-      books: action.books,
-      status: Status.success,
-      dataLoaded: true,
-      errorMsg: '',
-    };
+  on(BooksActions.loadBooksSuccess, (state, { books }) => {
+    return { ...state, books, loading: false, errorMessage: undefined };
   })
 );

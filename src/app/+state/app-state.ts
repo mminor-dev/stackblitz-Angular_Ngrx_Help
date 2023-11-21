@@ -1,9 +1,5 @@
-import { BooksState, booksInitialState, booksReducer } from './books.reducer';
-import {
-  PokemonState,
-  pokemonInitialState,
-  pokemonReducer,
-} from './pokemon.reducer';
+import { BooksState, booksInitialState, booksReducer } from './books';
+import { PokemonState, pokemonInitialState, pokemonReducer } from './pokemon';
 
 export interface AppState {
   books: BooksState;

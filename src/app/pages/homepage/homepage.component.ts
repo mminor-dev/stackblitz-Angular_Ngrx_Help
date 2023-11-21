@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Pokemon } from '../../data-access/pokemon/pokemon';
-import { Book } from '../../data-access/books/books';
+import { Store } from '@ngrx/store';
+
+import { BooksActions, PokemonActions, booksQuery, pokemonQuery } from '../../+state';
 
 @Component({
   selector: 'app-homepage',
@@ -9,13 +9,13 @@ import { Book } from '../../data-access/books/books';
   styleUrls: ['./homepage.component.css'],
 })
 export class HomepageComponent implements OnInit {
-  books: Book[] = [];
-  pokemon: Pokemon[] = [];
-
-  books2: Book[] = [];
-  pokemon2: Pokemon[] = [];
+  readonly books$ = this.store.select(booksQuery.selectBooks);
+  readonly pokemon$ = this.store.select(pokemonQuery.selectPokemon);
 
   constructor(private readonly store: Store) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.dispatch(BooksActions.loadBooks());
+    this.store.dispatch(PokemonActions.loadPokemon());
+  }
 }
